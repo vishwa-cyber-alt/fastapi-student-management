@@ -164,3 +164,18 @@ def delete_student(student_id: int, db: Session = Depends(get_db)):
     return {
         "message": "Student deleted successfully"
     }
+
+# =====================================
+# 6. GET - Count adult students
+# =====================================
+
+@app.get("/students/count/adults")
+def count_adult_students(db: Session = Depends(get_db)):
+
+    student_count = db.query(Student).filter(
+        Student.age > 18
+    ).count()
+
+    return {
+        "total_adult_students": student_count
+    }
