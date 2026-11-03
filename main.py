@@ -179,3 +179,22 @@ def count_adult_students(db: Session = Depends(get_db)):
     return {
         "total_adult_students": student_count
     }
+
+# =====================================
+# 7. GET - Search student by name
+# =====================================
+
+@app.get("/students/name/{student_name}", response_model=StudentResponse)
+def search_studentname(student_name: str, db: Session = Depends(get_db)):
+
+    student = db.query(Student).filter(
+        Student.name == student_name
+    ).first()
+
+    if student is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Student not found"
+        )
+
+    return student
