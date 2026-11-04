@@ -198,3 +198,15 @@ def search_studentname(student_name: str, db: Session = Depends(get_db)):
         )
 
     return student
+
+# =====================================
+# 8. GET - Get all students count
+# =====================================
+@app.get("/totalstudents")
+def count_students(db: Session = Depends(get_db)):
+
+    student_count = db.query(Student).count()
+
+    return {
+        "total_students": student_count
+    }
