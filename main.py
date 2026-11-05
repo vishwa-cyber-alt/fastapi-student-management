@@ -210,3 +210,18 @@ def count_students(db: Session = Depends(get_db)):
     return {
         "total_students": student_count
     }
+
+@app.get("/students/email/{student_email}", response_model=StudentResponse)
+def search_email(student_email: str, db: Session = Depends(get_db)):
+
+    student_email = db.query(Student).filter(
+        Student.email == student_email
+    ).first()
+
+    if student_email is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Email not found"
+        )
+
+    return student_email
